@@ -1,9 +1,5 @@
 // TODO: this file! :)
-const state = {
-    start: [],
-    odd:[],
-    even:[],
-};
+
 /* <body>
     <form>
       <label>
@@ -35,21 +31,56 @@ const state = {
     </main> */
 
 
-const form = document.querySelector('form');//form
-const input = document.querySelector('input')
-const number =[]
 
-form.addEventListener('submit',(event)=>{
-    console.log(event);
-    console.log(input.value);
-    //input.value='';
-    event.preventDefault();
-    number.push(input.value);
-    console.log(number);
-})
+const numberBank =[]//to collect the number
+const odds =[]
+const evens =[]
 
-function render(){
-    const numberBank = document.querySelector('')
+const form = document.querySelector('form');//check1
+const input = document.querySelector('input')//check1
+const sortOneButton = document.querySelector('#sortOne')//link to sort 1 button
+const sortAllButton = document.querySelector('#sortAll')//link to sort All button
+
+function addNumberToBank(e){
+  e.preventDefault();
+  const number = Number(input.value);// use Number to convert string to number
+  numberBank.push(number);//now push the number in array
+  input.value='';
+  console.log(numberBank);
+  render()
 }
 
+form.addEventListener('submit',addNumberToBank);//eventListener call for submit by use call function
 
+ function sortOne(){//function that can isolate one numbe to be odd or even
+ console.log('sortOne');
+ const number = numberBank.pop();// cut out the array number and
+ if(number % 2 === 0){//if the number become even then push the number in
+   evens.push(number)
+ }else{
+   odds.push(number)// else it will odds
+ }
+ render()
+ console.log(odds);
+ console.log(evens);
+ }
+
+ function sortAll(){
+ console.log('sortAll');
+   while(numberBank.length>0){// this will continous superate until end
+     sortOne();
+   }
+} 
+
+const numberBankEl = document.querySelector('#numberBank output')//
+const oddsEl = document.querySelector('#odds output')
+const evensEl = document.querySelector('#evens output')
+
+function render(){
+numberBankEl.textContent = numberBank
+oddsEl.textContent = odds
+evensEl.textContent = evens
+}
+
+sortOneButton.addEventListener('click',sortOne);
+sortAllButton.addEventListener('click',sortAll);
